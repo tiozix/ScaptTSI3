@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SCAPT – Unidade IV | ITC Moçambique</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink:    #0A0F1E;
+      --deep:   #0D1F3C;
+      --blue:   #1B4FD8;
+      --azure:  #2D82B7;
+      --gold:   #E8A020;
+      --cream:  #F7F9FC;
+      --white:  #FFFFFF;
+      --muted:  #5A6A85;
+      --border: #DDE5F0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--ink); background: var(--white); line-height: 1.7; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%; height: 68px;
+      background: rgba(10,15,30,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--white); text-decoration: none;
+      letter-spacing: -.01em;
+    }
+    .nav-logo em { font-style: normal; color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .82rem; font-weight: 500; letter-spacing: .03em;
+      color: rgba(255,255,255,.6); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      height: 100vh; min-height: 640px;
+      position: relative;
+      display: flex; align-items: flex-end;
+      padding: 0 6% 80px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1600&auto=format&fit=crop&q=80');
+      background-size: cover; background-position: center;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,15,30,.95) 0%, rgba(10,15,30,.55) 55%, rgba(10,15,30,.3) 100%);
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 760px; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--ink);
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .35rem .9rem;
+      border-radius: 4px;
+      margin-bottom: 1.4rem;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 900; color: var(--white);
+      line-height: 1.1; letter-spacing: -.02em;
+      margin-bottom: 1.2rem;
+    }
+    h1 span { color: var(--gold); }
+    .hero-desc {
+      font-size: 1.05rem; color: rgba(255,255,255,.7);
+      max-width: 540px; margin-bottom: 2rem;
+      font-weight: 300;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-gold {
+      background: var(--gold); color: var(--ink);
+      font-weight: 700; font-size: .9rem;
+      padding: .8rem 1.8rem; border-radius: 6px;
+      text-decoration: none;
+      transition: brightness .2s, transform .15s;
+    }
+    .btn-gold:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-outline {
+      border: 1.5px solid rgba(255,255,255,.35); color: var(--white);
+      font-weight: 500; font-size: .9rem;
+      padding: .8rem 1.8rem; border-radius: 6px;
+      text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); background: rgba(232,160,32,.08); }
+
+    .hero-strip {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+      display: flex; background: rgba(27,79,216,.88);
+      backdrop-filter: blur(8px);
+    }
+    .strip-item {
+      flex: 1; padding: 1rem 1.5rem;
+      border-right: 1px solid rgba(255,255,255,.15);
+      text-align: center;
+    }
+    .strip-item:last-child { border-right: none; }
+    .strip-item strong {
+      display: block; font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; color: var(--white);
+    }
+    .strip-item span { font-size: .75rem; color: rgba(255,255,255,.65); letter-spacing: .06em; text-transform: uppercase; }
+
+    /* ── GENERIC SECTION ── */
+    .sec { padding: 90px 6%; }
+    .sec--alt { background: var(--cream); }
+    .sec--dark { background: var(--deep); }
+    .wrap { max-width: 1160px; margin: 0 auto; }
+
+    .eyebrow {
+      font-size: .72rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: .7rem;
+    }
+    .sec--dark .eyebrow { color: var(--gold); }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 900; letter-spacing: -.02em;
+      line-height: 1.15; color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .sec--dark h2 { color: var(--white); }
+    .lead {
+      font-size: 1rem; color: var(--muted); max-width: 600px;
+      margin-bottom: 3rem;
+    }
+    .sec--dark .lead { color: rgba(255,255,255,.55); }
+
+    /* ── SPLIT LAYOUT ── */
+    .split {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .split--rev { direction: rtl; }
+    .split--rev > * { direction: ltr; }
+    .split-img {
+      border-radius: 16px; overflow: hidden;
+      aspect-ratio: 4/3;
+      box-shadow: 0 24px 64px rgba(0,0,0,.14);
+    }
+    .split-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .split-text .eyebrow { color: var(--blue); }
+
+    /* ── CARDS ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 1.5rem; }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px; padding: 2rem;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .sec--alt .card { background: var(--white); }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(27,79,216,.1); }
+    .card-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 900;
+      color: var(--border); line-height: 1;
+      margin-bottom: .8rem;
+    }
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--ink); margin-bottom: .5rem;
+    }
+    .card p { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── STEPS (ITIL) ── */
+    .itil-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1.2rem;
+    }
+    .itil-step {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px; padding: 1.4rem;
+      transition: background .2s;
+    }
+    .itil-step:hover { background: rgba(255,255,255,.09); }
+    .itil-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 900;
+      color: var(--gold); line-height: 1;
+      margin-bottom: .6rem;
+    }
+    .itil-step h4 {
+      font-size: .9rem; font-weight: 600;
+      color: var(--white); margin-bottom: .4rem;
+    }
+    .itil-step p { font-size: .82rem; color: rgba(255,255,255,.5); line-height: 1.6; }
+
+    /* ── CMS COMPARE ── */
+    .cms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .cms-box { border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+    .cms-head {
+      padding: 1.5rem 2rem;
+      display: flex; align-items: center; gap: .8rem;
+    }
+    .cms-box:first-child .cms-head { background: #1A73E8; }
+    .cms-box:last-child .cms-head  { background: #21759B; }
+    .cms-head img { width: 36px; height: 36px; object-fit: contain; border-radius: 6px; }
+    .cms-head h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--white);
+    }
+    .cms-body { padding: 1.8rem 2rem; background: var(--white); }
+    .cms-body ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+    .cms-body li { font-size: .88rem; color: var(--muted); display: flex; gap: .6rem; }
+    .cms-body li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+
+    /* ── IMAGE MOSAIC ── */
+    .mosaic {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 260px 260px;
+      gap: 12px;
+      border-radius: 16px; overflow: hidden;
+      margin-bottom: 3rem;
+    }
+    .mosaic-item { overflow: hidden; }
+    .mosaic-item:first-child { grid-row: 1/3; }
+    .mosaic-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+    .mosaic-item:hover img { transform: scale(1.04); }
+
+    /* ── VIDEO ── */
+    .video-wrap {
+      border-radius: 18px; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,.45);
+      position: relative; padding-bottom: 56.25%; height: 0;
+      max-width: 900px;
+    }
+    .video-wrap iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: none;
+    }
+
+    /* ── LINKS ── */
+    .links-row { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .link-pill {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 40px;
+      padding: .65rem 1.3rem;
+      font-size: .85rem; font-weight: 600;
+      color: var(--ink); text-decoration: none;
+      transition: border-color .2s, box-shadow .2s, transform .15s;
+    }
+    .link-pill:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 18px rgba(27,79,216,.14);
+      transform: translateY(-2px);
+    }
+    .link-pill .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0;
+    }
+
+    /* ── TEAM ── */
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 1.2rem; }
+    .team-card {
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--white);
+      text-align: center; padding-bottom: 1.2rem;
+    }
+    .team-card .avatar {
+      width: 100%; aspect-ratio: 1;
+      background: linear-gradient(135deg, var(--blue), var(--azure));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 900;
+      color: var(--white);
+      margin-bottom: .8rem;
+    }
+    .team-card h4 {
+      font-size: .88rem; font-weight: 600; color: var(--ink);
+      padding: 0 .8rem; line-height: 1.4;
+    }
+    .team-card span { font-size: .75rem; color: var(--muted); }
+
+    /* ── CONCLUSION BANNER ── */
+    .banner {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--azure) 100%);
+      border-radius: 20px; padding: 3.5rem 4rem;
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: center; gap: 2rem;
+    }
+    .banner h2 { color: var(--white); margin-bottom: .5rem; }
+    .banner p { color: rgba(255,255,255,.75); font-size: .95rem; max-width: 600px; }
+    .banner-btn {
+      background: var(--white); color: var(--blue);
+      font-weight: 700; font-size: .9rem;
+      padding: .9rem 2rem; border-radius: 8px;
+      text-decoration: none; white-space: nowrap;
+      transition: transform .15s;
+    }
+    .banner-btn:hover { transform: scale(1.03); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,.4);
+      text-align: center; padding: 3rem 6%;
+      font-size: .82rem; line-height: 2;
+    }
+    footer strong { color: rgba(255,255,255,.75); }
+    footer .divider { border: none; border-top: 1px solid rgba(255,255,255,.08); margin: 1.5rem auto; max-width: 200px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .split, .cms-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .split--rev { direction: ltr; }
+      .itil-grid { grid-template-columns: repeat(2,1fr); }
+      .hero-strip { display: none; }
+      .banner { grid-template-columns: 1fr; }
+      .mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .mosaic-item:first-child { grid-row: auto; grid-column: 1/3; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .itil-grid { grid-template-columns: 1fr; }
+      .mosaic { grid-template-columns: 1fr; }
+      .mosaic-item:first-child { grid-column: auto; }
+      .banner { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a class="nav-logo" href="#">ITC <em>SCAPT IV</em></a>
+  <ul class="nav-links">
+    <li><a href="#relatorios">Relatórios</a></li>
+    <li><a href="#incidentes">Incidentes TI</a></li>
+    <li><a href="#cms">CMS</a></li>
+    <li><a href="#multimedia">Multimédia</a></li>
+    <li><a href="#video">Vídeo</a></li>
+    <li><a href="#equipa">Equipa</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-tag">Instituto de Transportes e Comunicações · Maputo 2026</span>
+    <h1>Técnicas de Produção de <span>Conteúdos</span> para Áreas Específicas</h1>
+    <p class="hero-desc">Relatórios técnicos, gestão de incidentes ITIL, criação de sítios Web com CMS e conteúdos multimédia — Unidade IV da disciplina SCAPT.</p>
+    <div class="hero-btns">
+      <a class="btn-gold" href="#relatorios">Explorar conteúdo</a>
+      <a class="btn-outline" href="#video">▶ Ver vídeo explicativo</a>
+    </div>
+  </div>
+  <div class="hero-strip">
+    <div class="strip-item"><strong>4</strong><span>Capítulos</span></div>
+    <div class="strip-item"><strong>6</strong><span>Formandos</span></div>
+    <div class="strip-item"><strong>8</strong><span>Etapas ITIL</span></div>
+    <div class="strip-item"><strong>7</strong><span>Plugins WordPress</span></div>
+  </div>
+</section>
+
+<!-- RELATÓRIOS – SPLIT -->
+<section class="sec" id="relatorios">
+  <div class="wrap">
+    <div class="split">
+      <div class="split-img">
+        <img
+          src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=900&auto=format&fit=crop&q=80"
+          alt="Profissional a redigir relatório técnico"
+          loading="lazy"/>
+      </div>
+      <div class="split-text">
+        <p class="eyebrow">Capítulo 1</p>
+        <h2>Relatórios de Comunicação</h2>
+        <p style="color:var(--muted);margin-bottom:1.5rem;">O relatório é um documento técnico que descreve factos observados ou a execução de serviços. Na área de TI, apresenta o problema e o trabalho realizado para o resolver, exigindo rigor, clareza e normas estruturais.</p>
+        <div style="display:flex;flex-direction:column;gap:.8rem;">
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="min-width:40px;height:40px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;">📋</div>
+            <div><strong style="font-size:.9rem;">Técnico-Científico</strong><br><span style="font-size:.83rem;color:var(--muted);">Relata resultados de investigação; inclui resumo, desenvolvimento e recomendações.</span></div>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="min-width:40px;height:40px;border-radius:8px;background:var(--azure);display:flex;align-items:center;justify-content:center;color:white;font-size:1rem;">🏭</div>
+            <div><strong style="font-size:.9rem;">Visita Técnica</strong><br><span style="font-size:.83rem;color:var(--muted);">Apresenta experiências adquiridas numa visita — local, duração e observações.</span></div>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;">
+            <div style="min-width:40px;height:40px;border-radius:8px;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:1rem;">🏢</div>
+            <div><strong style="font-size:.9rem;">Administrativo</strong><br><span style="font-size:.83rem;color:var(--muted);">Relatório de actuação de uma unidade organizacional, submetido à autoridade superior.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCIDENTES TI – CARDS + ITIL -->
+<section class="sec sec--alt" id="incidentes">
+  <div class="wrap">
+    <p class="eyebrow">Capítulo 2</p>
+    <h2>Resolução de Incidentes de TI</h2>
+    <p class="lead">O modelo ITIL define oito etapas para restaurar um serviço o mais brevemente possível, mantendo os Acordos de Nível de Serviço (SLA).</p>
+
+    <div class="mosaic" style="margin-bottom:2.5rem;">
+      <div class="mosaic-item">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&auto=format&fit=crop&q=80" alt="Equipa de suporte TI" loading="lazy"/>
+      </div>
+      <div class="mosaic-item">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&auto=format&fit=crop&q=80" alt="Técnico de informática a trabalhar" loading="lazy"/>
+      </div>
+      <div class="mosaic-item">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=80" alt="Tecnologia de servidores" loading="lazy"/>
+      </div>
+      <div class="mosaic-item">
+        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&auto=format&fit=crop&q=80" alt="Código e desenvolvimento" loading="lazy"/>
+      </div>
+      <div class="mosaic-item">
+        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=500&auto=format&fit=crop&q=80" alt="Reunião de equipa TI" loading="lazy"/>
+      </div>
+    </div>
+
+    <div class="cards" style="margin-bottom:2.5rem;">
+      <div class="card">
+        <div class="card-num">01</div>
+        <h3>Evento</h3>
+        <p>Mudança de estado significativa — um alerta de que algo aconteceu ou pode acontecer. Ex: lentidão moderada na internet dentro do SLA.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <h3>Incidente</h3>
+        <p>Interrupção não planeada de um serviço ou redução da qualidade. Ex: internet fora do ar por período que excede o limite do SLA.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">03</div>
+        <h3>Problema</h3>
+        <p>Causa raiz de um ou mais incidentes. Ex: queda de internet que se repete semanalmente — exige investigação aprofundada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ITIL STEPS – DARK -->
+<section class="sec sec--dark">
+  <div class="wrap">
+    <p class="eyebrow">As 8 Etapas do ITIL</p>
+    <h2>Processo de Gerenciamento de Incidentes</h2>
+    <p class="lead">Boas práticas definidas pelo IT Infrastructure Library para restaurar serviços com o mínimo impacto no negócio.</p>
+    <div class="itil-grid">
+      <div class="itil-step"><div class="itil-n">01</div><h4>Identificação</h4><p>Detectado pela Central de Serviços, sistemas de monitoramento ou pelos próprios utilizadores via chat, e-mail ou telefone.</p></div>
+      <div class="itil-step"><div class="itil-n">02</div><h4>Registo</h4><p>Todos os incidentes registados conforme a ferramenta adoptada, criando histórico na base de conhecimento.</p></div>
+      <div class="itil-step"><div class="itil-n">03</div><h4>Categorização</h4><p>Classificação do chamado: tipo (incidente ou requisição), hardware ou software, serviço do catálogo relacionado.</p></div>
+      <div class="itil-step"><div class="itil-n">04</div><h4>Priorização</h4><p>Define-se prioridade por urgência e impacto: Muito Baixo, Baixo, Normal, Alto e Muito Alto. Pode usar Matriz GUT.</p></div>
+      <div class="itil-step"><div class="itil-n">05</div><h4>Diagnóstico Inicial</h4><p>Atendente procura solução consultando a base de conhecimento, procedimentos técnicos e fornecedores.</p></div>
+      <div class="itil-step"><div class="itil-n">06</div><h4>Escalada</h4><p>Se o 1.º nível não possuir conhecimento necessário, delega ao 2.º nível, distribuindo tarefas por competências.</p></div>
+      <div class="itil-step"><div class="itil-n">07</div><h4>Resolução</h4><p>Chamados solucionados com todas as informações registadas. Confirmar resolução e comunicar o resultado ao cliente.</p></div>
+      <div class="itil-step"><div class="itil-n">08</div><h4>Fechamento</h4><p>Chamado encerrado e informações exportadas para a base de conhecimento, acessíveis a outros atendentes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CMS – SPLIT -->
+<section class="sec" id="cms">
+  <div class="wrap">
+    <div class="split split--rev" style="margin-bottom:4rem;">
+      <div class="split-img">
+        <img
+          src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=900&auto=format&fit=crop&q=80"
+          alt="Design de sítio Web em ecrã de computador"
+          loading="lazy"/>
+      </div>
+      <div class="split-text">
+        <p class="eyebrow">Capítulo 3</p>
+        <h2>Criação de Sítios Web com CMS</h2>
+        <p style="color:var(--muted);">Um sítio Web é o endereço digital de uma empresa ou profissional. Plataformas como Google Sites e WordPress permitem criar uma presença online de qualidade sem necessidade de programação avançada.</p>
+      </div>
+    </div>
+    <div class="cms-grid">
+      <div class="cms-box">
+        <div class="cms-head">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" alt="Google"/>
+          <h3>Google Sites</h3>
+        </div>
+        <div class="cms-body">
+          <ul>
+            <li>Ferramenta gratuita e de fácil utilização</li>
+            <li>Modelos e funcionalidades prontos</li>
+            <li>Integra Sheets, Slides e Formulários</li>
+            <li>Permite incorporar vídeos do YouTube</li>
+            <li>Barra lateral configurável (AdSense, Navegação, Texto)</li>
+            <li>Endereço Web próprio incluído</li>
+            <li>Ideal para empresas e organizações sem fins lucrativos</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cms-box">
+        <div class="cms-head">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/WordPress_blue_logo.svg/512px-WordPress_blue_logo.svg.png" alt="WordPress"/>
+          <h3>WordPress</h3>
+        </div>
+        <div class="cms-body">
+          <ul>
+            <li>CMS mais utilizado globalmente</li>
+            <li>Não exige conhecimentos de programação</li>
+            <li>Mais de 6 000 temas no repositório oficial</li>
+            <li>Suporta lojas, portfólios, blogues e mais</li>
+            <li>Instalação via AutoInstalador ou FTP</li>
+            <li>Comunidade activa e extensa</li>
+            <li>Economicamente acessível (temas e plugins gratuitos)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MULTIMEDIA -->
+<section class="sec sec--alt" id="multimedia">
+  <div class="wrap">
+    <div class="split" style="margin-bottom:3.5rem;">
+      <div class="split-text">
+        <p class="eyebrow">Capítulo 4</p>
+        <h2>Conteúdos Multimédia em Sítios Web</h2>
+        <p style="color:var(--muted);margin-bottom:1.2rem;">Multimédia é a combinação controlada por computador de texto, gráficos, imagens, vídeo, áudio e animação, transmitida e processada sob a forma digital.</p>
+        <p style="color:var(--muted);">Para que um documento seja considerado multimédia, deve incluir pelo menos um tipo de <strong>media estático</strong> (texto, imagem) e um tipo de <strong>media dinâmico</strong> (vídeo, áudio ou animação).</p>
+      </div>
+      <div class="split-img">
+        <img
+          src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?w=900&auto=format&fit=crop&q=80"
+          alt="Produção de conteúdo multimédia digital"
+          loading="lazy"/>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-num">📡</div>
+        <h3>Mass Media</h3>
+        <p>Intermediários entre produtores e consumidores — rádio, televisão e imprensa escrita.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">🔌</div>
+        <h3>Transmission Media</h3>
+        <p>Meios físicos de transmissão da informação: cablagens, ondas de rádio e satélites.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">💾</div>
+        <h3>Storage Media</h3>
+        <p>Meios de armazenamento físico: discos rígidos magnéticos e discos ópticos.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">🖥️</div>
+        <h3>Presentation Media</h3>
+        <p>Meios físicos de apresentação ao utilizador: monitores, painéis de plasma e colunas de som.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VÍDEO -->
+<section class="sec sec--dark" id="video">
+  <div class="wrap">
+    <p class="eyebrow">Recurso Audiovisual</p>
+    <h2>Introdução ao WordPress e CMS</h2>
+    <p class="lead" style="margin-bottom:2rem;">Vídeo de referência sobre como criar e gerir um sítio Web com WordPress — a plataforma CMS mais popular do mundo.</p>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/jmqu4HC3zmo"
+        title="Introdução ao WordPress"
+        allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- LINKS -->
+<section class="sec" id="links">
+  <div class="wrap">
+    <p class="eyebrow">Referências &amp; Recursos</p>
+    <h2>Links Directos e Documentação</h2>
+    <p class="lead">Aceda directamente às plataformas, ferramentas e bibliografias mencionadas neste trabalho.</p>
+    <div class="links-row">
+      <a class="link-pill" href="https://sites.google.com" target="_blank" rel="noopener"><span class="dot"></span>Google Sites</a>
+      <a class="link-pill" href="https://support.google.com/sites" target="_blank" rel="noopener"><span class="dot"></span>Suporte Google Sites</a>
+      <a class="link-pill" href="https://wordpress.org" target="_blank" rel="noopener"><span class="dot"></span>WordPress.org</a>
+      <a class="link-pill" href="https://wordpress.org/documentation/" target="_blank" rel="noopener"><span class="dot"></span>WordPress Docs</a>
+      <a class="link-pill" href="https://yoast.com" target="_blank" rel="noopener"><span class="dot"></span>Yoast SEO</a>
+      <a class="link-pill" href="https://woocommerce.com" target="_blank" rel="noopener"><span class="dot"></span>WooCommerce</a>
+      <a class="link-pill" href="https://wordfence.com" target="_blank" rel="noopener"><span class="dot"></span>Wordfence</a>
+      <a class="link-pill" href="https://www.axelos.com/best-practice-solutions/itil" target="_blank" rel="noopener"><span class="dot"></span>ITIL Framework</a>
+      <a class="link-pill" href="https://tinypng.com" target="_blank" rel="noopener"><span class="dot"></span>TinyPNG</a>
+      <a class="link-pill" href="https://contactform7.com" target="_blank" rel="noopener"><span class="dot"></span>Contact Form 7</a>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPA -->
+<section class="sec sec--alt" id="equipa">
+  <div class="wrap">
+    <p class="eyebrow">Os Formandos</p>
+    <h2>Equipa de Trabalho</h2>
+    <p class="lead">CV4 – Suporte Informático · Formador: José Siniquinha · Maputo, Maio 2026</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="avatar">EM</div>
+        <h4>Edmilson Matuasse</h4>
+        <span>Nº 12</span>
+      </div>
+      <div class="team-card">
+        <div class="avatar">DB</div>
+        <h4>Diego Michel Busse</h4>
+        <span>Nº 11</span>
+      </div>
+      <div class="team-card">
+        <div class="avatar">KM</div>
+        <h4>Khani Da Elsa Mathusse</h4>
+        <span>Nº 20</span>
+      </div>
+      <div class="team-card">
+        <div class="avatar">AJ</div>
+        <h4>Anderson Ferreira Juma</h4>
+        <span>Nº 2</span>
+      </div>
+      <div class="team-card">
+        <div class="avatar">OM</div>
+        <h4>Ofélia Aida Marenjua</h4>
+        <span>Nº 25</span>
+      </div>
+      <div class="team-card">
+        <div class="avatar">LF</div>
+        <h4>Leonel Francisco</h4>
+        <span>Nº 22</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSION BANNER -->
+<section class="sec">
+  <div class="wrap">
+    <div class="banner">
+      <div>
+        <h2>Conclusão</h2>
+        <p>Os conteúdos desta unidade são de aplicação directa na prática profissional de um Técnico de Informática — desde a redacção de relatórios ao gerenciamento de incidentes ITIL, passando pela criação de sítios Web e produção multimédia. Competências essenciais para o exercício qualificado da profissão.</p>
+      </div>
+      <a class="banner-btn" href="#relatorios">Rever conteúdo</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>SCAPT – Unidade IV · Técnicas de Produção de Conteúdos para Áreas Específicas</strong>
+  <hr class="divider"/>
+  <p>Instituto de Transportes e Comunicações · CV4 – Suporte Informático · Formador: José Siniquinha</p>
+  <p>Edmilson Matuasse · Diego Busse · Khani Mathusse · Anderson Juma · Ofélia Marenjua · Leonel Francisco</p>
+  <p>Maputo, Maio de 2026</p>
+</footer>
+
+</body>
+</html>
